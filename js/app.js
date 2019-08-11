@@ -4,11 +4,11 @@ var missed = 0;
 
 
 const phrases = [
-  "One man dying of thirst while another man drown",
-  "The rain in spain stays mainly in the plain",
-  "Two birds of feather flocks together",
-  "A clean sweep",
-  "A city rich in history"
+  "one man dying of thirst while another man drown",
+  "the rain in spain stays mainly in the plain",
+  "two birds of feather flocks together",
+  "a clean sweep",
+  "a city rich in history"
   ];
 
 $('.btn__reset').click(function(){
@@ -17,20 +17,16 @@ $('.btn__reset').click(function(){
 
 //randomly shuffling the phrases
 function getRandomPhraseAsArray(arr){
- let phrase = arr.length;
- let temp;
- let index;
+ let arraySet = Math.floor(Math.random() * arr.length);
+ let randomPhrase = arr[arraySet];
+ let phraseSet = [];
 
-  while (phrase > 0) {
-    index = Math.floor(Math.random() * phrase);
-    phrase--;
+ for (let i = 0; i < randomPhrase.length; i += 1) {
+   phraseSet.push(randomPhrase[i]);
+ }
 
-    temp = arr[phrase];
-    arr[phrase] = arr[index];
-    arr[index] = temp;
-  }
-  return arr;
-}
+ return phraseSet;
+};
 
 getRandomPhraseAsArray(phrases);
 
@@ -60,15 +56,41 @@ console.log(phrases);
 
 
 function checkLetter(arr) {
-const click = arr;
-const letter = document.getElementByClass('letter');
+const buttonClick = arr;
+const phraseLetter = document.getElementsByClassName('letter');
 const nope = null;
 
-   for(let i = 0; i <letter.length; i ++) {
-     if(click.toUpperCase() === letter[i].textContent.toUpperCase()){
-       letter[i].className += 'show';
-       nope = click;
+   for(let i = 0; i < phraseLetter.length; i ++) {
+     if(buttonClick.toUpperCase() === phraseLetter[i].textContent.toUpperCase()){
+       phraseLetter[i].className += 'show';
+       nope = buttonClick;
      }
    }
    return nope;
+
  };
+
+
+// create the players guess click function
+qwerty.addEventListener('click', (e) => {
+  if (e.target.tagName === 'BUTTON') {
+    let buttonText = e.target.textContent;
+
+    e.target.className = 'chosen';
+    e.target.disabled = true;
+
+    let thereItIs = checkLetter(buttonText);
+    console.log("The value returned from checkLetter is: " + thereItIs);
+
+    if (thereItIs === null) {
+      missed = missed + 1;
+      console.log("the number of missed guesses is:" + missed);
+
+      let hearts = document.getElementsByClassName('tries');
+      console.log(hearts[0]);
+      hearts[5 - missed].lastElementChild.setAttribute('src', 'images/lostHeart.png');
+
+    }
+
+  }
+});
