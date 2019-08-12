@@ -3,12 +3,13 @@ var phrase = document.getElementById('phrase');
 var missed = 0;
 
 
-const phrases = [
-  "one man dying of thirst while another man drown",
-  "the rain in spain stays mainly in the plain",
-  "two birds of feather flocks together",
-  "a clean sweep",
-  "a city rich in history"
+let phrases = [
+  "CSS",
+  "JavaScript",
+  "Iron Man",
+  "Jack Baer",
+  "David Banner",
+  " A city rich in history"
   ];
 
 $('.btn__reset').click(function(){
@@ -19,28 +20,30 @@ $('.btn__reset').click(function(){
 function getRandomPhraseAsArray(arr){
  let arraySet = Math.floor(Math.random() * arr.length);
  let randomPhrase = arr[arraySet];
+
  let phraseSet = [];
 
- for (let i = 0; i < randomPhrase.length; i += 1) {
+ for (let i = 0; i < randomPhrase.length; i ++) {
    phraseSet.push(randomPhrase[i]);
  }
 
  return phraseSet;
+
 };
 
 getRandomPhraseAsArray(phrases);
 
 // Display the array in random order
 function addPhraseToDisplay(arr){
- const ul = document.getElementById('phrase');
+ let ul = document.getElementById('phrase');
 
  for (let i = 0; i < arr.length; i ++) {
-   const phraseChar = arr[i];
-   const li = document.createElement('li');
+   let phraseChar = arr[i];
+   let li = document.createElement('li');
 
-   li.textContext = phraseChar;
+   li.textContent = phraseChar;
 
-   if(li.textContext !=' '){
+   if(li.textContent !=' '){
      li.className = 'letter';
      ul.appendChild(li);
    } else {
@@ -52,26 +55,45 @@ function addPhraseToDisplay(arr){
 
 const phraseArray = getRandomPhraseAsArray(phrases);
 addPhraseToDisplay(phraseArray);
-console.log(phrases);
+// console.log(phrases);
 
-
+// This function checks to see if the letter the user clicks is in the array
 function checkLetter(arr) {
-const buttonClick = arr;
-const phraseLetter = document.getElementsByClassName('letter');
-const nope = null;
+let buttonClick = arr;
+let phraseLetter = document.getElementsByClassName('letter');
+let nope = null;
 
    for(let i = 0; i < phraseLetter.length; i ++) {
      if(buttonClick.toUpperCase() === phraseLetter[i].textContent.toUpperCase()){
-       phraseLetter[i].className += 'show';
+       phraseLetter[i].className += ' show';
        nope = buttonClick;
      }
    }
    return nope;
 
  };
+/* This function matches the length of the both the show and phrase letters
+   to see if the user has won the game.*/
+function checkWin() {
+const showLetters = document.querySelectorAll('.show');
+phraseLetter = document.querySelectorAll('.letter');
+let overlay = document.querySelector('#overlay');
+title = document.querySelector('.title');
+
+if(showLetters.length === phraseLetter.length) {
+   overlay.style.display = '';
+   overlay.className = 'win';
+   title.textContent = 'Congrats!!!';
+ }else if (missed === 5) {
+   overlay.style.display = '';
+   overlay.className = 'lose';
+   title.textContent = 'Nice Try';
+ }
+};
 
 
-// create the players guess click function
+/* This tells the code to listen to the clicks and fires off the checkLetter
+    fuction as ,well, as the checkWin fuction*/
 qwerty.addEventListener('click', (e) => {
   if (e.target.tagName === 'BUTTON') {
     let buttonText = e.target.textContent;
@@ -80,17 +102,17 @@ qwerty.addEventListener('click', (e) => {
     e.target.disabled = true;
 
     let thereItIs = checkLetter(buttonText);
-    console.log("The value returned from checkLetter is: " + thereItIs);
+    // console.log("The value returned from checkLetter is: " + thereItIs);
 
     if (thereItIs === null) {
       missed = missed + 1;
-      console.log("the number of missed guesses is:" + missed);
+      // console.log("the number of missed guesses is:" + missed);
 
       let hearts = document.getElementsByClassName('tries');
-      console.log(hearts[0]);
+      // console.log(hearts[0]);
       hearts[5 - missed].lastElementChild.setAttribute('src', 'images/lostHeart.png');
 
     }
-
+ checkWin();
   }
 });
