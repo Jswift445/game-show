@@ -1,7 +1,7 @@
 var qwerty = document.getElementById('qwerty');
 var phrase = document.getElementById('phrase');
 var missed = 0;
-
+var startGame =  document.getElementById('overlay').lastElementChild;
 
 let phrases = [
   "CSS",
@@ -35,7 +35,7 @@ getRandomPhraseAsArray(phrases);
 
 // Display the array in random order
 function addPhraseToDisplay(arr){
- let ul = document.getElementById('phrase');
+ let ul = document.getElementById('phrase').firstElementChild;
 
  for (let i = 0; i < arr.length; i ++) {
    let phraseChar = arr[i];
@@ -53,9 +53,7 @@ function addPhraseToDisplay(arr){
  }
 }
 
-const phraseArray = getRandomPhraseAsArray(phrases);
-addPhraseToDisplay(phraseArray);
-// console.log(phrases);
+
 
 // This function checks to see if the letter the user clicks is in the array
 function checkLetter(arr) {
@@ -72,6 +70,8 @@ let nope = null;
    return nope;
 
  };
+
+
 /* This function matches the length of the both the show and phrase letters
    to see if the user has won the game.*/
 function checkWin() {
@@ -114,5 +114,41 @@ qwerty.addEventListener('click', (e) => {
 
     }
  checkWin();
+ }
+
+});
+
+//Set up the game to set
+ function resetPhrase() {
+ const ul = document.getElementById('phrase').firstElementChild;
+ while (ul.firstElementChild) {
+   ul.removeChild(ul.firstElementChild);
+ }
+ let phraseArray = getRandomPhraseAsArray(phrases);
+ addPhraseToDisplay(phraseArray);
+ console.log(phrases);
+};
+function resetKeyboard() {
+  qwertyButtons = qwerty.getElementsByTagName('button');
+
+  for (let i = 0; i < qwertyButtons.length; i ++) {
+    qwertyButtons[i].className = 'null';
+    qwertyButtons[i].disabled = false;
   }
+};
+
+function restScoreboard() {
+  missed = 0;
+  let giveHearts = document.getElementsByClassName('tries');
+
+  for (i = 0; i < giveHearts.length; i ++) {
+    giveHearts[i].lastElementChild.setAttribute('src', 'images/liveHeart.png');
+  }
+};
+
+startGame.addEventListener('click', () => {
+  overlay.style.display = 'none';
+  resetPhrase();
+  resetKeyboard();
+  restScoreboard();
 });
