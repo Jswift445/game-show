@@ -1,3 +1,5 @@
+
+
 var qwerty = document.getElementById('qwerty');
 var phrase = document.getElementById('phrase');
 var missed = 0;
@@ -9,7 +11,7 @@ let phrases = [
   "Iron Man",
   "Jack Baer",
   "David Banner",
-  " A city rich in history"
+  " A City Rich In History"
   ];
 
 $('.btn__reset').click(function(){
@@ -81,14 +83,18 @@ let overlay = document.querySelector('#overlay');
 title = document.querySelector('.title');
 
 if(showLetters.length === phraseLetter.length) {
+  $(".show").hide();
+
    overlay.style.display = '';
    overlay.className = 'win';
    title.textContent = 'Congrats!!!';
  }else if (missed === 5) {
+   $(".show").hide();
    overlay.style.display = '';
    overlay.className = 'lose';
    title.textContent = 'Nice Try';
  }
+
 };
 
 
@@ -114,6 +120,7 @@ qwerty.addEventListener('click', (e) => {
 
     }
  checkWin();
+
  }
 
 });

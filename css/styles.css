@@ -95,6 +95,8 @@ button {
 .show {
   color: #000;
   background-color: #76CE82;
+  transition: width 2s, height 2s, transform 2s;
+  transform: rotateY(720deg);
 }
 
 /* Keyboard */
@@ -148,6 +150,7 @@ button {
 
 .win {
   background-color: var(--color-win);
+  
 }
 
 .win a {
